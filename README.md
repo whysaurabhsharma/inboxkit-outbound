@@ -97,11 +97,13 @@ actor.
 
 ## First lines
 
-`copy/first_lines.csv` holds ten first lines produced by Claude Code
-applying `skills/first-line/SKILL.md` to rows of `data/out/leads.csv`,
-each checked by `src/first_line.py`. The `generated_by` column says so.
-One row breaks a rule on purpose, next to its fix, to show the checker
-working; the note on the file's first line says which.
+`copy/first_lines_full.csv` holds 25 first lines produced by Claude
+Code applying `skills/first-line/SKILL.md` to rows of
+`data/out/leads.csv`, each run through the checker in
+`src/first_line.py`. All 25 passed, so the file has zero rejections;
+none were invented. `copy/first_lines.csv` holds the 10 chosen from
+them. The `generated_by` column and each file's first line say how
+they were made.
 
 For volume, `python run.py first-lines` runs the same skill through
 the Anthropic API (needs `pip install anthropic` and

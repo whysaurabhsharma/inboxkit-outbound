@@ -27,20 +27,47 @@ def test_each_skill_rule_is_enforced():
         assert first_line.check(line, ROW) == reason, line
 
 
+def test_open_role_claims_need_a_field_proving_it():
+    for line in ["Your SDR role has been open since 14 October.",
+                 "Your SDR role posted on 14 October is still open.",
+                 "Acme has an open SDR role, posted 14 October.",
+                 "Acme is still hiring an SDR, posted 14 October."]:
+        assert first_line.check(line, ROW) == "claims role is still open", line
+    proven = dict(ROW, role_open_checked_on="2026-10-24")
+    assert first_line.check("Your SDR role posted 14 October is still open.", proven) is None
+    assert first_line.check("Outbound team posted an SDR role on 14 October.", ROW) is None
+
+
 def test_skill_version_is_read_from_the_skill_file():
     _, version = first_line.skill()
-    assert version == "first-line-v1"
+    assert version == "first-line-v2"
+
+
+def _committed(name):
+    import csv
+    lines = (ROOT / "copy" / name).read_text(encoding="utf-8").splitlines()
+    assert lines[0].startswith("# "), name
+    return list(csv.DictReader(lines[1:]))
 
 
 def test_committed_first_lines_match_the_checker():
-    import csv
-    path = ROOT / "copy" / "first_lines.csv"
-    lines = path.read_text(encoding="utf-8").splitlines()
-    assert lines[0].startswith("# ")
-    rows = list(csv.DictReader(lines[1:]))
-    assert len({r["account_id"] for r in rows}) == 10
-    for r in rows:
-        why = first_line.check(r["first_line"], {"signal_date": r["signal_fact_used"].split(" | ")[1]})
-        assert (why is None) == (r["approved"] == "yes"), r
-        assert (why or "") == r["rejection_reason"], r
-        assert r["generated_by"].startswith("claude-code-opus-5.5")
+    """Every verdict in both files is the checker's; a fix row says what it fixes."""
+    for name, accounts in (("first_lines_full.csv", 25), ("first_lines.csv", 10)):
+        rows = _committed(name)
+        assert len({r["account_id"] for r in rows}) == accounts, name
+        for r in rows:
+            why = first_line.check(r["first_line"],
+                                   {"signal_date": r["signal_fact_used"].split(" | ")[1]})
+            assert (why is None) == (r["approved"] == "yes"), r
+            if why:
+                assert r["rejection_reason"] == why, r
+            else:
+                assert r["rejection_reason"] in ("",) or r["rejection_reason"].startswith("fix:"), r
+            assert r["generated_by"].startswith("claude-code-opus-5.5"), r
+            assert r["prompt_version"] == first_line.skill()[1], r
+
+
+def test_best_ten_come_from_the_full_run():
+    full = {(r["account_id"], r["first_line"]) for r in _committed("first_lines_full.csv")}
+    best = {(r["account_id"], r["first_line"]) for r in _committed("first_lines.csv")}
+    assert best <= full

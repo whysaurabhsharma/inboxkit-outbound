@@ -24,7 +24,7 @@ writes CSVs to `data/out`.
 | Check | Result |
 | --- | --- |
 | `pip install --no-cache-dir -r requirements.txt` into a fresh venv | Installed PyYAML 6.0.3 and pytest 9.1.1; demos and tests below pass inside it |
-| `python -m pytest tests -q` | 40 passed |
+| `python -m pytest tests -q` | 42 passed |
 | `python src/lint_copy.py` | Passed, exit 0 |
 | `python run.py run` (hybrid: 2 live_board + 98 synthetic_dry_run) | 100 in, 8 deduped, 8 suppressed, 21 off ICP, 73 accounts, 2 need contact, 14 bad email, 8 held, 39 live |
 | `python run.py run --icp config/icp_jobchangers.yaml --limit 20` | 15 in, 1 deduped, 1 suppressed, 3 off ICP, 3 bad email, 1 held, 6 live |

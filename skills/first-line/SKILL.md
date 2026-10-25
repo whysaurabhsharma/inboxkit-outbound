@@ -19,12 +19,17 @@ signal_date, signal_url, signal_text.
 7. No flattery opener. Never start with I noticed, I saw,
    congrats, love what, hope this finds.
 8. If the record has no signal_url, return exactly: Not found
+9. Never say a role is open, still open, currently open, or has been
+   open since a date, and never say they are still hiring. A post date
+   shows when the role was published, not that it is still open. Only
+   say it if the record has a role_open_checked_on field, the date
+   someone confirmed the post was live.
 
 ## Good
 
 You posted an SDR role on 14 October and your site runs Smartlead.
 
-Three outbound roles open at Acme since 2 October.
+Acme posted three outbound roles on 2 October.
 
 ## Bad
 
@@ -33,6 +38,9 @@ I noticed you are hiring, congrats on the growth. (flattery, no date)
 Exciting to see Acme scaling the outbound team. (adjective)
 
 Saw your job post and thought InboxKit could help. (product claim)
+
+Your SDR role has been open since 14 October. (unsourced: a post date
+does not show the role is still open)
 
 ## Prompt
 
@@ -47,4 +55,4 @@ preamble.
 
 ## Version
 
-first-line-v1
+first-line-v2
