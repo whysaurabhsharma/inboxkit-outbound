@@ -5,7 +5,7 @@
 | | |
 | --- | --- |
 | What | The offline pipeline (both segments), the dash lint, the seven graded rules, determinism, a clean install, and one live run against public job boards |
-| Commit | bce1b75 (QA evidence re-run at this commit) |
+| Commit | 1f975ae (QA evidence re-run at this commit) |
 | Date | 25 Oct 2026 |
 | Machine | Windows 11 Home Single Language 10.0.26300, Git Bash |
 | Python | 3.14.7, with PyYAML 6.0.3 and pytest 9.1.1, the versions pinned in requirements.txt |
@@ -30,7 +30,7 @@ sent; the run writes CSVs to `data/out`.
 
 Command: `python run.py run` then `python src/check_rules.py --live`.
 The script reports and never fixes. Its exit code is the number of
-failing rules. **Exit code at bce1b75: 0, all seven pass.**
+failing rules. **Exit code at 1f975ae: 0, all seven pass.**
 
 | Rule | Result | Proof |
 | --- | --- | --- |
@@ -62,7 +62,7 @@ Offline runs count signal age back from `data/fixtures/as_of.json`
 ## 5. Clean install
 
 A fresh venv with no `yaml` module, then
-`pip install --no-cache-dir -r requirements.txt` at bce1b75:
+`pip install --no-cache-dir -r requirements.txt` at 1f975ae:
 
 | Step | Result |
 | --- | --- |
@@ -125,15 +125,45 @@ working tree, including gitignored files, on 25 Oct 2026.
 | Phone numbers | None found |
 | Recorded live data (data/fixtures/live) | Gitignored, never committed; contains no email addresses |
 
-Open, waiting on the repo owner's decision (history not rewritten):
+The scrub found two problems. Both were fixed by a history rewrite.
 
-- The commit author email on 24 commits is a personal address. It is
-  visible to anyone who can read the repo. Removing it means rewriting
-  history and force pushing.
-- Two early commits (e1993b0, c298597) contain made-up contact emails
-  at two real InboxKit customer domains, plus made-up addresses at
-  other domains that may be registered. They were removed from the
-  working tree in 544ca6a but remain in history.
+### History rewrite, 25 Oct 2026
+
+Why: (1) the author and committer email on 24 commits was a personal
+address, visible to anyone who can read the repo; (2) early commits
+held made-up contact emails at domains that resolve, including two
+real InboxKit customers.
+
+What changed, in one pass with `git filter-branch` over all 26 commits:
+
+- Author and committer email on every commit set to the GitHub
+  noreply address. Names, dates and messages unchanged.
+- Nine made-up addresses at domains that resolve in DNS replaced by
+  `.example` equivalents wherever they appeared in history:
+  alice@juniperoutreach, c@someagency, ellie@outreachbloom,
+  floris@vectify, info@acme, owen@brightpipe, sales@acme,
+  someone@agency, tom@cedarreach. Made-up addresses at domains with no
+  DNS record were left as they were.
+- The current tree was not touched: its tree hash is identical before
+  and after (c41ca01), because the working tree already held none of
+  these addresses.
+
+Every commit hash changed. Old 7f18f37 is new 0da7daa; references in
+this file were updated. Anyone with an old clone must re-clone.
+
+Backup: a git bundle of all refs before the rewrite,
+`inboxkit-outbound-pre-rewrite-2026-10-25.bundle`, kept next to the
+repo on the dev machine and never pushed. It contains the old history,
+personal address included, so it stays private.
+
+Exempt on purpose: `a@vectify.io` and `b@zapmail.ai` in
+tests/test_suppress_verify.py were left in history and in the working
+tree. That test checks suppression against the real customer and
+competitor list in config/suppression.csv, so it has to use real
+domains. The local parts are single letters and name no one.
+
+Future commits: this repo's `git config user.email` is set to the
+noreply address.
 
 ## 9. Clean machine run (to be filled in on a second computer)
 
