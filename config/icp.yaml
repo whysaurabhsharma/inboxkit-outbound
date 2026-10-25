@@ -1,0 +1,58 @@
+﻿# Primary segment: agencies about to scale sending.
+# Change this file and rerun to launch a new campaign.
+
+name: agencies-hiring-outbound
+description: >
+  Outbound and lead generation agencies of 5 to 50 people that run
+  Smartlead or Instantly and posted an outbound role in 90 days.
+
+company:
+  industries:
+    - lead generation
+    - marketing agency
+    - sales outsourcing
+  size_min: 5
+  size_max: 50
+  geos:
+    - United States
+    - United Kingdom
+    - Canada
+
+techstack:
+  any_of:
+    - Smartlead
+    - Instantly
+
+signal:
+  type: job_post
+  lookback_days: 90
+  title_keywords:
+    - SDR
+    - outbound
+    - cold email
+    - deliverability
+    - lead generation
+    - business development
+
+contacts:
+  per_company_max: 2
+  title_include:
+    - founder
+    - co-founder
+    - ceo
+    - head of growth
+    - head of outbound
+    - head of deliverability
+    - operations lead
+    - coo
+  title_exclude:
+    - sdr
+    - account executive
+    - intern
+    - recruiter
+
+qualify:
+  volume_floor_per_month: 10000
+
+output:
+  limit: 100
