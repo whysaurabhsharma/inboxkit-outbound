@@ -23,7 +23,7 @@ python -m pytest tests -q
 ```
 
 Expected: the run prints 100 rows in and 39 live; the tests print
-`47 passed`. No API keys and no network after the install. Nothing is
+`48 passed`. No API keys and no network after the install. Nothing is
 sent; the run writes CSVs to `data/out`.
 
 ## 3. The seven graded rules
@@ -70,7 +70,7 @@ re-run after openpyxl was added, with the results below:
 | Install | PyYAML 6.0.3, pytest 9.1.1, openpyxl 3.1.5, et-xmlfile 2.0.0; no build step, no error |
 | Primary demo | 100 in, 39 live |
 | Job-changer demo | 15 in, 6 live |
-| Tests | 47 passed |
+| Tests | 48 passed |
 | `python run.py sheet` | Wrote data/out/inboxkit-leads.xlsx |
 | Dash lint | Passed |
 
@@ -126,6 +126,7 @@ working tree, including gitignored files, on 25 Oct 2026.
 | .env | Gitignored, never committed. Holds one non-empty value locally (APIFY_TOKEN); stays on this machine |
 | Phone numbers | None found |
 | Recorded live data (data/fixtures/live) | Gitignored, never committed; contains no email addresses |
+| Committed workbook (02-lead-list/inboxkit-leads.xlsx) | 2,382 cells scanned before commit: 100 emails, all .example; 47 LinkedIn URLs, all linkedin.example; the only real hosts are the Belkins and memoryBlue job URLs; their rows read Not found for every person field. A test re-runs this scan on the committed file |
 
 The scrub found problems that a history rewrite fixed, published in
 one force push.

@@ -75,6 +75,10 @@ Writes `data/out/inboxkit-leads.xlsx`: a Read me tab, then Leads, Needs
 contact, Held, Rejects, Suppressed and Run log, each with a bold frozen
 header. Upload it to Google Sheets with File > Import.
 
+A built copy is committed at `02-lead-list/inboxkit-leads.xlsx`. It is
+a snapshot of one run; regenerate it with
+`python run.py run && python run.py sheet --out 02-lead-list/inboxkit-leads.xlsx`.
+
 ## Live mode
 
 ```

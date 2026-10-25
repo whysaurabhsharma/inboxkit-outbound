@@ -69,7 +69,7 @@ def cmd_first_lines(args):
 
 def cmd_sheet(args):
     import export_sheet
-    path, counts, sources = export_sheet.build()
+    path, counts, sources = export_sheet.build(args.out) if args.out else export_sheet.build()
     print("Wrote {0}".format(path))
     for tab, n in counts.items():
         print("  {0:<14} {1} rows".format(tab, n))
@@ -115,6 +115,7 @@ def main():
     fl.set_defaults(func=cmd_first_lines)
 
     sh = sub.add_parser("sheet", help="Write data/out/inboxkit-leads.xlsx from the CSVs")
+    sh.add_argument("--out", help="write the workbook here instead")
     sh.set_defaults(func=cmd_sheet)
 
     rep = sub.add_parser("report", help="Print the Monday review")

@@ -47,7 +47,8 @@ on any machine.
   rebuilt by make_synthetic.py
 - data/out/ generated, gitignored
 - copy/ the sequence and LinkedIn messages
-- tests/ forty-seven tests covering dedupe, suppression, verification,
+- 02-lead-list/ committed snapshot of the workbook (python run.py sheet --out)
+- tests/ forty-eight tests covering dedupe, suppression, verification,
   ICP filters, the frozen demo date, the live sources (offline) and
   the data_source labelling
 

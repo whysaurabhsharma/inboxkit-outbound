@@ -29,7 +29,8 @@ TABS = [
     ("Suppressed", "suppressed.csv",
      "Customers, competitors and opt-outs, with the rule that matched."),
     ("Run log", "run_log.csv",
-     "One row per pipeline run: counts, mode, credits, seconds."),
+     "One row per pipeline run: counts, mode, credits, seconds. It holds every run "
+     "since the repo was started, including development runs; the final run is the last row."),
 ]
 LEADS_ORDER = export.BRIEF_COLUMNS + export.PROVENANCE + export.EXTRA_COLUMNS
 
