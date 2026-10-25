@@ -57,3 +57,26 @@ resolved down, which is one sentence in the memo.
 
 The compare pages name rival vendors. Rule 5 says nobody is attacked
 by name, so no comparison figure appears in any message.
+
+## Qualified demo
+
+Defined from their own demo form at https://www.inboxkit.com/demo
+
+The form books a 30 minute call and asks one qualifying question:
+target cold email volume, in four bands.
+
+| Band | Qualified |
+| --- | --- |
+| Less than 10k per month | No |
+| 10k to 100k per month | Yes |
+| 100k to 500k per month | Yes |
+| 500k plus per month | Yes |
+
+A qualified demo is an outbound or lead generation agency, booked
+with the person who owns the infrastructure decision (founder,
+co-founder, Head of Growth, Head of Outbound, Head of
+Deliverability, Ops lead), at a stated or inferred volume of 10k
+a month or higher. AEs and SDRs are excluded by title at the
+contact step.
+
+The CTA asks for the 30 minutes their form already books.
