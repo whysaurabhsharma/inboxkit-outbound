@@ -1,6 +1,8 @@
 ﻿# Rules
 
-Five graded rules from the brief. Break one and the submission fails.
+Seven graded rules, all checked by `python src/check_rules.py`.
+Rules 1 to 5 come from the brief; break one and the submission fails.
+Rules 6 and 7 are my own.
 
 1. Product claims come only from inboxkit.com, and the page is linked.
    Every claim in copy carries a claim ID that resolves to a row in
@@ -20,11 +22,9 @@ Five graded rules from the brief. Break one and the submission fails.
    Nobody is attacked by name. The competitor comparison table on
    inboxkit.com is not used anywhere in copy.
 
-One rule of my own:
-
 6. Every fact about a prospect carries a source URL, or the cell
    reads "Not found". No inferred titles, no guessed emails,
    no signal without a dated link.
 
-Nothing gets sent. This repo writes CSVs. It has no sequencer
-credentials and no send path.
+7. Nothing gets sent. This repo writes CSVs. It has no sequencer
+   credentials and no send path.

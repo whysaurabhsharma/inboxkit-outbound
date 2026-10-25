@@ -176,20 +176,11 @@ replaced strings.
 Every commit hash changed. Old 7f18f37 is new 3b0a44a; references in
 this file were updated. Anyone with an old clone must re-clone.
 
-Backup: a git bundle of all refs before the rewrite,
-`inboxkit-outbound-pre-rewrite-2026-10-25.bundle`, kept next to the
-repo on the dev machine and never pushed. It contains the old history,
-personal address included, so it stays private.
-
 Exempt on purpose: `a@vectify.io` and `b@zapmail.ai` in
 tests/test_suppress_verify.py were left in history and in the working
 tree. That test checks suppression against the real customer and
 competitor list in config/suppression.csv, so it has to use real
 domains. The local parts are single letters and name no one.
-
-Future commits: `git config user.email` is set to the noreply address
-both for this repo and globally on the dev machine, so other repos
-on it do not publish the personal address either.
 
 ## 9. Clean machine run
 
