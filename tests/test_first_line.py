@@ -38,9 +38,44 @@ def test_open_role_claims_need_a_field_proving_it():
     assert first_line.check("Outbound team posted an SDR role on 14 October.", ROW) is None
 
 
+def test_present_tense_live_claims_need_a_field_proving_it():
+    lines = ["Acme is hiring an SDR, posted 14 October.",
+             "You are hiring an SDR, posted 14 October.",
+             "You're hiring an SDR, posted 14 October.",
+             "You" + chr(0x2019) + "re hiring an SDR, posted 14 October.",
+             "Acme has an opening for an SDR, posted 14 October.",
+             "Acme posted SDR openings on 14 October.",
+             "Acme is currently recruiting an SDR, posted 14 October.",
+             "Acme is looking for an SDR, posted 14 October."]
+    for line in lines:
+        assert first_line.check(line, ROW) == "claims role is still open", line
+    proven = dict(ROW, role_open_checked_on="2026-10-24")
+    for line in lines:
+        assert first_line.check(line, proven) is None, line
+
+
+def test_line_may_only_use_fields_the_skill_receives():
+    for line in ["You posted an SDR role on 14 October and your site runs Smartlead.",
+                 "Your Instantly team posted an SDR role on 14 October.",
+                 "Your team of 12 people posted an SDR role on 14 October."]:
+        assert first_line.check(line, ROW) == "uses a field the skill does not receive", line
+
+
+def test_skill_good_examples_pass_the_checker():
+    text, _ = first_line.skill()
+    good = text.split("## Good", 1)[1].split("## Bad", 1)[0]
+    examples = [l.strip() for l in good.splitlines() if l.strip()]
+    assert examples
+    for line in examples:
+        d = [m for m in first_line.MONTHS if m in line][0]
+        day = line.split(" " + d)[0].split()[-1]
+        row = {"signal_date": "2026-{0:02d}-{1:02d}".format(first_line.MONTHS.index(d) + 1, int(day))}
+        assert first_line.check(line, row) is None, line
+
+
 def test_skill_version_is_read_from_the_skill_file():
     _, version = first_line.skill()
-    assert version == "first-line-v2"
+    assert version == "first-line-v3"
 
 
 def _committed(name):

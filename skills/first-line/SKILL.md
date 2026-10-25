@@ -19,17 +19,23 @@ signal_date, signal_url, signal_text.
 7. No flattery opener. Never start with I noticed, I saw,
    congrats, love what, hope this finds.
 8. If the record has no signal_url, return exactly: Not found
-9. Never say a role is open, still open, currently open, or has been
-   open since a date, and never say they are still hiring. A post date
-   shows when the role was published, not that it is still open. Only
-   say it if the record has a role_open_checked_on field, the date
-   someone confirmed the post was live.
+9. Never claim a role is live now. That means no open, still open,
+   currently open, open since a date, an opening, openings, has an
+   opening, is hiring, are hiring, you're hiring, still hiring,
+   currently recruiting, or looking for a. A post date shows when the
+   role was published, not that it is still live. Only say it if the
+   record has a role_open_checked_on field, the date someone confirmed
+   the post was live.
+10. Use only the fields in the record: first_name, company,
+   signal_type, signal_date, signal_url, signal_text, and
+   role_open_checked_on when present. Techstack, headcount and anything
+   else are not fields here, so the line never mentions them.
 
 ## Good
 
-You posted an SDR role on 14 October and your site runs Smartlead.
+Acme listed a Deliverability Lead role on 14 October.
 
-Acme posted three outbound roles on 2 October.
+You posted an SDR role on 2 October.
 
 ## Bad
 
@@ -41,6 +47,9 @@ Saw your job post and thought InboxKit could help. (product claim)
 
 Your SDR role has been open since 14 October. (unsourced: a post date
 does not show the role is still open)
+
+You posted an SDR role on 14 October and your site runs Smartlead.
+(techstack is not a field in the record)
 
 ## Prompt
 
@@ -55,4 +64,4 @@ preamble.
 
 ## Version
 
-first-line-v2
+first-line-v3
