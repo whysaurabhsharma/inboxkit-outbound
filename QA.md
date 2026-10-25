@@ -1,4 +1,4 @@
-# QA
+﻿# QA
 
 ## Reviewer: three commands from a clean checkout
 
@@ -24,11 +24,13 @@ writes CSVs to `data/out`.
 | Check | Result |
 | --- | --- |
 | `pip install --no-cache-dir -r requirements.txt` into a fresh venv | Installed PyYAML 6.0.3 and pytest 9.1.1; demos and tests below pass inside it |
-| `python -m pytest tests -q` | 20 passed |
+| `python -m pytest tests -q` | 31 passed |
 | `python src/lint_copy.py` | Passed, exit 0 |
 | `python run.py run` | 10 in, 2 deduped, 1 suppressed, 0 off ICP, 2 bad email, 1 held, 4 live |
 | `python run.py run --icp config/icp_jobchangers.yaml --limit 20` | 15 in, 1 deduped, 1 suppressed, 3 off ICP, 3 bad email, 1 held, 6 live |
 | Both demos rerun with the clock faked to 1 Jan 2030 | leads, rejects, suppressed and held CSVs byte identical |
+| `python run.py run --live --record` (6 approved boards, 25 Oct 2026) | 6 boards read, 2 agencies with a fresh matching post (Belkins, memoryBlue), 4 with no open jobs, 0 live rows (no contacts without `--enrich`) |
+| Replay of that recording offline | Same counts |
 | Makefile | All 7 recipe lines start with a tab (0x09), no BOM, LF endings; every target calls a file that exists |
 
 Offline runs count signal age back from `data/fixtures/as_of.json`

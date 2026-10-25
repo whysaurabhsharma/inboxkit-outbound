@@ -59,9 +59,33 @@ python run.py report
 
 ## Live mode
 
-Copy `.env.example` to `.env` and fill in keys, then add `--live`.
-Without keys the verifier returns unknown rather than guessing, so
-nothing unverified reaches leads.csv.
+```
+python run.py run --live --record
+```
+
+Live sourcing reads the public job board APIs (Greenhouse, Lever,
+Ashby, Workable, Recruitee) for every agency in `config/boards.csv`.
+No keys, no cost, no scraping. Any failed call stops the run; it
+never falls back to the demo fixtures. `--record` saves the responses
+to `data/fixtures/live/<date>/` (gitignored, since it holds real
+data) so the run replays offline.
+
+Boards only list companies and job posts, so live rows have no
+contact until `--enrich` finds one with Prospeo (spends credits,
+needs `PROSPEO_API_KEY`). Prospeo's verified status is the
+verification result; BounceBan is only asked about catch-alls.
+
+To find boards for more agencies:
+
+```
+python run.py probe --names "Agency One,agencytwo.com"
+```
+
+Hits land in `config/boards_candidates.csv`. Copy the ones you have
+checked into `config/boards.csv`; nothing gets there automatically.
+
+`--source apify` exists but is off until `config/apify.yaml` names an
+actor.
 
 ## Rules
 

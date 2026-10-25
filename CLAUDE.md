@@ -27,7 +27,9 @@ on any machine.
 | Command | What it does |
 | --- | --- |
 | python run.py run | Offline demo on fixtures |
-| python run.py run --live | Live, needs keys in .env |
+| python run.py run --live --record | Live from public job boards, free |
+| python run.py run --live --enrich | Adds Prospeo contacts, spends credits |
+| python run.py probe --names "A,b.com" | Find boards, writes candidates only |
 | python run.py suppress --add X --reason opt_out | Honour an opt-out |
 | python run.py report | Monday review |
 | python -m pytest tests -q | Tests |
@@ -35,14 +37,15 @@ on any machine.
 
 ## Layout
 
-- config/ icp.yaml, suppression.csv, claims.md, segment.md
+- config/ icp.yaml, suppression.csv, claims.md, segment.md,
+  boards.csv (approved boards), boards_candidates.csv, apify.yaml
 - src/ one module per pipeline stage
 - skills/ the two Claude prompts, in readable markdown
 - data/fixtures/ recorded responses so demo runs offline
 - data/out/ generated, gitignored
 - copy/ the sequence and LinkedIn messages
-- tests/ twenty tests covering dedupe, suppression, verification,
-  ICP filters and the frozen demo date
+- tests/ thirty-one tests covering dedupe, suppression, verification,
+  ICP filters, the frozen demo date and the live sources (offline)
 
 ## Adding a segment
 

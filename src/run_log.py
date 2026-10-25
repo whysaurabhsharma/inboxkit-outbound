@@ -8,7 +8,7 @@ LOG = OUT / "run_log.csv"
 
 COLUMNS = [
     "run_at", "icp", "mode", "rows_in", "deduped",
-    "suppressed", "off_icp", "invalid", "catch_all", "live",
+    "suppressed", "off_icp", "accounts", "invalid", "catch_all", "live",
     "credits_spent", "seconds", "note",
 ]
 

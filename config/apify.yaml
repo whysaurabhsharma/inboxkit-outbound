@@ -1,0 +1,21 @@
+# Optional second live source: python run.py run --live --source apify
+# Off by default. With actor empty the run stops and says why.
+#
+# Most job scraping actors target sites whose terms forbid scraping
+# (LinkedIn, Indeed, Glassdoor). Only set an actor whose target site
+# allows automated access.
+
+# Apify actor id, e.g. username/actor-name. Empty means off.
+actor:
+
+# Hard spend cap per run in USD, passed to Apify as maxTotalChargeUsd.
+max_charge_usd: 0.50
+
+# Most items the actor may return per run.
+max_items: 100
+
+# Actor input, exactly as the actor's input schema expects it.
+input: {}
+
+# Fixture field -> actor output field. Unmapped fields become "Not found".
+field_map: {}

@@ -1,0 +1,15 @@
+ats,token,board_name,probed_for,name_match,open_jobs,sample_job,sample_url,checked_on,status
+lever,belkins,Not found,Belkins,check,6,Business Development Representative (BDR) | US Market | Remote,https://jobs.lever.co/belkins/bdec3922-de2c-44dd-a1c5-17a3f4acb9a6,2026-10-25,approved
+workable,belkins,Belkins,Belkins,yes,0,,,2026-10-25,rejected: duplicate board; lever:belkins approved
+workable,martal-group,Martal Group,Martal Group,yes,0,,,2026-10-25,approved
+workable,callbox,callbox,Callbox,yes,0,,,2026-10-25,approved
+greenhouse,memoryblue,memoryBlue,Memory Blue,yes,25,Spanish Speaking Sales Development Representative - Boston (Immediate Start),https://memoryblue.com/jobs/4723416006?gh_jid=4723416006,2026-10-25,approved
+workable,memoryblue,memoryBlue,Memory Blue,yes,0,,,2026-10-25,rejected: duplicate board; greenhouse:memoryblue approved
+workable,sales-focus-inc,Sales Focus Inc,Sales Focus Inc,yes,0,,,2026-10-25,approved
+workable,sapper-consulting,Sapper Consulting,Sapper Consulting,yes,0,,,2026-10-25,approved
+workable,leadgenius,LeadGenius,LeadGenius,yes,0,,,2026-10-25,"rejected: contact data provider, not an outbound agency"
+workable,klientboost,KlientBoost,Klientboost,yes,0,,,2026-10-25,"rejected: paid ads agency, not outbound"
+greenhouse,hrtechx,HRtechX,hrtechx,yes,276,Conference Coordinator Volunteer,https://job-boards.greenhouse.io/hrtechx/jobs/8040987003,2026-10-25,"rejected: HR tech company, not an outbound agency"
+lever,getwingapp,Not found,getwingapp,check,374,Client Matching Specialist,https://jobs.lever.co/getwingapp/d9915bf4-a8f6-4bb7-9f5c-d40f69ed61ad,2026-10-25,"rejected: virtual assistant staffing, not an outbound agency"
+workable,pavago,Pavago,pavago,yes,2581,Performance Marketer,https://apply.workable.com/j/0C3F1CA4A7,2026-10-25,"rejected: remote staffing firm, not an outbound agency"
+workable,huzzle,Huzzle,huzzle,yes,2481,B2B Sales Development Representative,https://apply.workable.com/j/D51C84D3FF,2026-10-25,"rejected: recruitment platform, not an outbound agency"

@@ -43,10 +43,10 @@ def score_row(row, icp, today=None):
     if any(w in stack for w in wanted):
         points += WEIGHTS["techstack_match"]
         reasons.append("techstack_match")
-    size = row.get("employee_count")
+    size = str(row.get("employee_count") or "")
     lo = icp.get("company", {}).get("size_min", 0)
     hi = icp.get("company", {}).get("size_max", 10**6)
-    if size and lo <= int(size) <= hi:
+    if size.isdigit() and lo <= int(size) <= hi:
         points += WEIGHTS["size_in_band"]
         reasons.append("size_in_band")
     title = (row.get("title") or "").lower()

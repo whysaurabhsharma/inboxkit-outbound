@@ -19,6 +19,7 @@ ICP = {
 
 def _row(**over):
     row = {"signal_type": "job_post", "signal_date": "2026-10-10",
+           "signal_url": "https://jobs.example.com/1",
            "signal_text": "SDR, outbound", "title": "Founder"}
     row.update(over)
     return row
@@ -58,3 +59,12 @@ def test_title_matching_nothing_is_mismatch():
 def test_title_match_is_whole_word():
     assert icp_filter.reason_for(_row(title="Coordinator"), ICP, TODAY) == "title_mismatch"
     assert icp_filter.reason_for(_row(title="International Founder"), ICP, TODAY) is None
+
+
+def test_row_without_signal_is_no_signal():
+    assert icp_filter.reason_for(_row(signal_url="Not found"), ICP, TODAY) == "no_signal"
+
+
+def test_row_without_contact_is_no_contact():
+    assert icp_filter.reason_for(_row(title="Not found"), ICP, TODAY) == "no_contact"
+    assert icp_filter.reason_for(_row(title="Not found"), ICP, TODAY, stage="signal") is None
