@@ -17,13 +17,13 @@ writes CSVs to `data/out`.
 
 - Date: 25 Oct 2026
 - Machine: Windows 11 Home Single Language 10.0.26300, Git Bash
-- Python 3.14.7, PyYAML 6.0.3, pytest 9.1.1 (installed versions;
-  requirements.txt pins PyYAML 6.0.2 and pytest 8.3.4, which were
-  not installed fresh here)
+- Python 3.14.7, PyYAML 6.0.3, pytest 9.1.1 (the tested versions,
+  pinned in requirements.txt)
 - make: not installed, so Makefile checked by reading it, not running it
 
 | Check | Result |
 | --- | --- |
+| `pip install --no-cache-dir -r requirements.txt` into a fresh venv | Installed PyYAML 6.0.3 and pytest 9.1.1; demos and tests below pass inside it |
 | `python -m pytest tests -q` | 20 passed |
 | `python src/lint_copy.py` | Passed, exit 0 |
 | `python run.py run` | 10 in, 2 deduped, 1 suppressed, 0 off ICP, 2 bad email, 1 held, 4 live |
