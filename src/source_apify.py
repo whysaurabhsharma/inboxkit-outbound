@@ -67,6 +67,7 @@ def source(icp, record_dir=None, config_path=CONFIG):
         row = {f: item.get(fmap[f]) if fmap.get(f) else None for f in FIELDS}
         row = {k: (v if v not in (None, "") else NF) for k, v in row.items()}
         row.update({"account_id": "apify:{0}".format(i), "signal_type": "job_post",
-                    "source": "apify:" + cfg["actor"]})
+                    "source": "apify:" + cfg["actor"],
+                    "data_source": "live_apify"})
         rows.append(row)
     return rows

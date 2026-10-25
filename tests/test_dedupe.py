@@ -7,8 +7,8 @@ from dedupe import normalise_domain, normalise_company, dedupe, company_key
 
 
 def test_www_and_path_variants_collapse():
-    assert normalise_domain("https://WWW.Acme.com/careers") == "acme.com"
-    assert normalise_domain("acme.com") == "acme.com"
+    assert normalise_domain("https://WWW.Acme.example/careers") == "acme.example"
+    assert normalise_domain("acme.example") == "acme.example"
 
 
 def test_legal_suffixes_dropped():
@@ -17,8 +17,8 @@ def test_legal_suffixes_dropped():
 
 def test_duplicate_domain_is_rejected_with_reason():
     rows = [
-        {"account_id": "A1", "domain": "acme.com", "company": "Acme"},
-        {"account_id": "A2", "domain": "www.acme.com/jobs", "company": "Acme"},
+        {"account_id": "A1", "domain": "acme.example", "company": "Acme"},
+        {"account_id": "A2", "domain": "www.acme.example/jobs", "company": "Acme"},
     ]
     kept, rejected = dedupe(rows, company_key)
     assert len(kept) == 1

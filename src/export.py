@@ -10,10 +10,15 @@ BRIEF_COLUMNS = [
     "email", "verification_status", "signal", "source",
 ]
 
+# Where the row came from: live_board, live_apify or synthetic_dry_run.
+# Straight after the nine so a reviewer cannot miss it.
+PROVENANCE = ["data_source"]
+
 # My additions, after the nine.
 EXTRA_COLUMNS = [
     "account_id", "score", "tier", "first_line", "prompt_version",
-    "signal_date", "signal_url", "techstack", "employee_count",
+    "signal_date", "signal_url", "signal_type", "signal_text",
+    "techstack", "employee_count",
 ]
 
 
@@ -29,22 +34,29 @@ def _write(path, rows, columns):
 
 
 def write_leads(rows):
-    cols = BRIEF_COLUMNS + EXTRA_COLUMNS
+    cols = BRIEF_COLUMNS + PROVENANCE + EXTRA_COLUMNS
     return _write("leads.csv", rows, cols)
 
 
 def write_rejects(rows):
-    cols = ["account_id", "company", "domain", "email",
-            "reason", "verification_status", "source"]
+    cols = ["account_id", "company", "domain", "email", "data_source",
+            "reason", "verification_status", "source", "signal_date", "signal_url"]
     return _write("rejects.csv", rows, cols)
 
 
 def write_suppressed(rows):
-    cols = ["account_id", "company", "domain", "email",
+    cols = ["account_id", "company", "domain", "email", "data_source",
             "suppressed_on", "matched_value", "reason", "note"]
     return _write("suppressed.csv", rows, cols)
 
 
+def write_needs_contact(rows):
+    cols = BRIEF_COLUMNS + PROVENANCE + [
+        "account_id", "score", "tier", "signal_date", "signal_url",
+        "techstack", "employee_count"]
+    return _write("needs_contact.csv", rows, cols)
+
+
 def write_held(rows):
-    cols = BRIEF_COLUMNS + ["account_id", "note"]
+    cols = BRIEF_COLUMNS + PROVENANCE + ["account_id", "note"]
     return _write("held.csv", rows, cols)

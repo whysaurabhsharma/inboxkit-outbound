@@ -30,7 +30,7 @@ def test_competitor_domain_suppressed():
 
 
 def test_unrelated_domain_survives():
-    rows = [{"domain": "someagency.com", "email": "c@someagency.example"}]
+    rows = [{"domain": "someagency.example", "email": "c@someagency.example"}]
     kept, supp = suppress.apply(rows, SUPP)
     assert len(kept) == 1
     assert supp == []
@@ -47,4 +47,4 @@ def test_malformed_address_is_invalid():
 
 
 def test_unseen_address_is_unknown_not_valid():
-    assert verify.verify("someone@unseen-domain.com") == "unknown"
+    assert verify.verify("someone@unseen.example") == "unknown"

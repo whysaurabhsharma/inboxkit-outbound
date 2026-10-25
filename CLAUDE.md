@@ -4,7 +4,7 @@ How to work in this repo.
 
 ## What it does
 
-One YAML segment file in, four CSVs out. Deterministic apart from
+One YAML segment file in, five CSVs out (plus run_log.csv). Deterministic apart from
 two judgment steps that call Claude: qualify-account and
 first-line. Everything else is plain Python so it runs identically
 on any machine.
@@ -41,11 +41,14 @@ on any machine.
   boards.csv (approved boards), boards_candidates.csv, apify.yaml
 - src/ one module per pipeline stage
 - skills/ the two Claude prompts, in readable markdown
-- data/fixtures/ recorded responses so demo runs offline
+- data/fixtures/ recorded responses so demo runs offline; companies.json
+  is the hybrid dry run (2 live_board + 98 synthetic_dry_run rows),
+  rebuilt by make_synthetic.py
 - data/out/ generated, gitignored
 - copy/ the sequence and LinkedIn messages
-- tests/ thirty-one tests covering dedupe, suppression, verification,
-  ICP filters, the frozen demo date and the live sources (offline)
+- tests/ thirty-nine tests covering dedupe, suppression, verification,
+  ICP filters, the frozen demo date, the live sources (offline) and
+  the data_source labelling
 
 ## Adding a segment
 

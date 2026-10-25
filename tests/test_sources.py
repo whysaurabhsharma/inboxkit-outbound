@@ -15,7 +15,7 @@ import source_boards as sb
 
 ICP = {"signal": {"title_keywords": ["SDR", "business development"]},
        "techstack": {"any_of": ["Smartlead", "Instantly"]}}
-BOARD = {"company": "Acme Leads", "domain": "acmeleads.com", "ats": "lever", "token": "acme"}
+BOARD = {"company": "Acme Leads", "domain": "acmeleads.example", "ats": "lever", "token": "acme"}
 
 
 def test_each_board_parser_reads_title_date_url():
@@ -52,6 +52,7 @@ def test_row_takes_freshest_matching_job_and_never_invents():
     assert row["employee_count"] == "Not found"
     assert row["email"] == "Not found"
     assert row["title"] == "Not found"
+    assert row["data_source"] == "live_board"
 
 
 def test_board_with_no_matching_job_has_no_signal():
@@ -79,7 +80,7 @@ def test_enrich_refuses_without_prospeo_key(monkeypatch):
     monkeypatch.setattr(env, "load", lambda path=None: None)
     monkeypatch.delenv("PROSPEO_API_KEY", raising=False)
     with pytest.raises(SystemExit, match="PROSPEO_API_KEY"):
-        enrich_prospeo.enrich([{"domain": "acmeleads.com"}], {})
+        enrich_prospeo.enrich([{"domain": "acmeleads.example"}], {})
 
 
 def test_enrich_is_refused_offline():

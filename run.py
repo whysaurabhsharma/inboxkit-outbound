@@ -14,8 +14,8 @@ def cmd_run(args):
                                   enrich=args.enrich)
     print("Run complete ({0}).".format(stats["mode"]))
     for key in ("rows_in", "deduped", "suppressed", "off_icp", "accounts",
-                "invalid", "catch_all", "live", "seconds"):
-        print("  {0:<12} {1}".format(key, stats[key]))
+                "needs_contact", "invalid", "catch_all", "live", "seconds"):
+        print("  {0:<14} {1}".format(key, stats[key]))
     reasons = {}
     for r in rejects:
         why = r.get("reason", "").split(":")[0]
@@ -24,7 +24,8 @@ def cmd_run(args):
         print("  rejected by reason: " + ", ".join(
             "{0} {1}".format(k, reasons[k]) for k in sorted(reasons)))
     print("")
-    print("Wrote data/out/leads.csv, rejects.csv, suppressed.csv, held.csv")
+    print("Wrote data/out/leads.csv, rejects.csv, suppressed.csv, held.csv, "
+          "needs_contact.csv")
     return 0
 
 
@@ -55,6 +56,14 @@ def cmd_suppress(args):
         print("Suppressed {0} as {1}".format(args.add, args.reason))
     else:
         print("{0} was already suppressed".format(args.add))
+    return 0
+
+
+def cmd_first_lines(args):
+    import first_line
+    results = first_line.run(limit=args.limit)
+    approved = sum(r["approved"] == "yes" for r in results)
+    print("Wrote copy/first_lines.csv: {0} lines, {1} approved.".format(len(results), approved))
     return 0
 
 
@@ -89,6 +98,10 @@ def main():
     pr.add_argument("--names", help="comma separated agency names or domains")
     pr.add_argument("--file", help="one agency name or domain per line")
     pr.set_defaults(func=cmd_probe)
+
+    fl = sub.add_parser("first-lines", help="Run the first-line skill on leads.csv")
+    fl.add_argument("--limit", type=int, default=10)
+    fl.set_defaults(func=cmd_first_lines)
 
     rep = sub.add_parser("report", help="Print the Monday review")
     rep.set_defaults(func=cmd_report)

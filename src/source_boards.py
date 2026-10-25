@@ -153,6 +153,7 @@ def to_row(board, jobs, icp):
         "first_name": "", "last_name": "", "title": NF,
         "linkedin_url": NF, "email": NF,
         "source": ats,
+        "data_source": "live_board",
         "open_jobs": len(jobs),
     }
 

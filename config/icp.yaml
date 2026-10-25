@@ -20,11 +20,13 @@ signal:
   lookback_days: 90
   title_keywords:
     - SDR
+    - Sales Development Representative
     - outbound
     - cold email
     - deliverability
     - lead generation
     - business development
+    - Business Development Representative
 
 contacts:
   title_include:

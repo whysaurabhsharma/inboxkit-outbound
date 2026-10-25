@@ -1,0 +1,10 @@
+domain,email,reason,note
+brambridgeoutreach.example,,customer,synthetic dry-run customer
+brambsteadoutreach.example,,customer,synthetic dry-run customer
+marrfordpipeline.example,,customer,synthetic dry-run customer
+brackmerereach.example,,customer,synthetic dry-run customer
+marrholtgrowth.example,,customer,synthetic dry-run customer
+vellmereoutreach.example,,customer,synthetic dry-run customer
+,vik@junovanedemand.example,opt_out,synthetic dry-run opt-out
+,omar@rookwickoutbound.example,opt_out,synthetic dry-run opt-out
+kestholtpipeline.example,,customer,synthetic dry-run customer

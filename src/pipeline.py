@@ -1,4 +1,4 @@
-﻿"""The pipeline. One YAML in, four CSVs out."""
+﻿"""The pipeline. One YAML in, five CSVs out."""
 import json
 import time
 from datetime import date
@@ -113,6 +113,11 @@ def run(icp_path, limit=None, offline=True, source_name="boards",
 
     supp_path = str(ROOT / "config" / "suppression.csv")
     kept, suppressed = suppress.apply(kept, supp_path)
+    synthetic_supp = FIXTURES / "suppression_synthetic.csv"
+    if offline and synthetic_supp.exists():
+        # Made-up customers for the dry run, kept out of the real list.
+        kept, more = suppress.apply(kept, str(synthetic_supp))
+        suppressed = suppressed + more
     kept, off_signal = icp_filter.apply(kept, icp, today, stage="signal")
     accounts = len(kept)
 
@@ -125,6 +130,10 @@ def run(icp_path, limit=None, offline=True, source_name="boards",
         suppressed = suppressed + late_suppressed
 
     kept, off_contact = icp_filter.apply(kept, icp, today, stage="contact")
+    # Passed every ICP check, nobody to email yet: the enrichment queue.
+    needs_contact = [shape(r, icp, today) for r in off_contact
+                     if r["reason"] == "no_contact"]
+    off_contact = [r for r in off_contact if r["reason"] != "no_contact"]
     off_icp = off_signal + off_contact
 
     live, held, bad = [], [], []
@@ -150,6 +159,7 @@ def run(icp_path, limit=None, offline=True, source_name="boards",
     export.write_rejects(rejects)
     export.write_suppressed(suppressed)
     export.write_held(held)
+    export.write_needs_contact(needs_contact)
 
     stats = {
         "icp": Path(icp_path).name,
@@ -159,6 +169,7 @@ def run(icp_path, limit=None, offline=True, source_name="boards",
         "suppressed": len(suppressed),
         "off_icp": len(off_icp),
         "accounts": accounts,
+        "needs_contact": len(needs_contact),
         "invalid": len(bad),
         "catch_all": len(held),
         "live": len(live),

@@ -29,14 +29,22 @@ twice: the second run adds zero rows.
 
 ## What you get
 
-Five files land in `data/out`:
+The default demo is a labelled hybrid dry run of 100 rows: 2 real
+agencies from the live board run and 98 synthetic ones. The
+`data_source` column, straight after the brief's nine, says which
+(`live_board` or `synthetic_dry_run`). See config/sourcing_findings.md
+for why it is a hybrid. `data/fixtures/make_synthetic.py` rebuilds the
+synthetic rows deterministically.
+
+Six files land in `data/out`:
 
 | File | What is in it |
 | --- | --- |
-| leads.csv | Verified-valid rows only, brief columns first |
+| leads.csv | Verified-valid rows only, brief columns first, then data_source |
 | rejects.csv | Duplicates, off-ICP rows and bad emails, each with a reason |
 | suppressed.csv | Customers and competitors, with the rule matched |
 | held.csv | Catch-all addresses, held back from live |
+| needs_contact.csv | Accounts that passed every ICP check but have no verified contact yet: the enrichment queue |
 | run_log.csv | One row per run: counts, credits, seconds |
 
 ## A new segment is one file and one command

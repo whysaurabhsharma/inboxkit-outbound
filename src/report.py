@@ -40,6 +40,7 @@ def monday_review():
     lines.append("  suppressed   " + last.get("suppressed", "0"))
     lines.append("  off ICP      " + (last.get("off_icp") or "0"))
     lines.append("  accounts     " + (last.get("accounts") or "0"))
+    lines.append("  need contact " + (last.get("needs_contact") or "0"))
     lines.append("  bad email    " + last.get("invalid", "0"))
     lines.append("  held         " + last.get("catch_all", "0"))
     lines.append("  live         " + last.get("live", "0"))
