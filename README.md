@@ -32,7 +32,7 @@ Five files land in `data/out`:
 | File | What is in it |
 | --- | --- |
 | leads.csv | Verified-valid rows only, brief columns first |
-| rejects.csv | Duplicates and bad emails, each with a reason |
+| rejects.csv | Duplicates, off-ICP rows and bad emails, each with a reason |
 | suppressed.csv | Customers and competitors, with the rule matched |
 | held.csv | Catch-all addresses, held back from live |
 | run_log.csv | One row per run: counts, credits, seconds |

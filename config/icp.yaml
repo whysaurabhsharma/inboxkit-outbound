@@ -7,16 +7,8 @@ description: >
   Smartlead or Instantly and posted an outbound role in 90 days.
 
 company:
-  industries:
-    - lead generation
-    - marketing agency
-    - sales outsourcing
   size_min: 5
   size_max: 50
-  geos:
-    - United States
-    - United Kingdom
-    - Canada
 
 techstack:
   any_of:
@@ -35,7 +27,6 @@ signal:
     - business development
 
 contacts:
-  per_company_max: 2
   title_include:
     - founder
     - co-founder
@@ -50,9 +41,6 @@ contacts:
     - account executive
     - intern
     - recruiter
-
-qualify:
-  volume_floor_per_month: 10000
 
 output:
   limit: 100

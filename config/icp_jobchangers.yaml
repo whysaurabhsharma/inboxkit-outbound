@@ -1,0 +1,62 @@
+# Secondary segment: new infrastructure owners at agencies.
+# Someone who just took over outbound tends to re-check the stack
+# in their first 90 days. Fill the fields in, save, then run:
+#   python run.py run --icp config/icp_jobchangers.yaml --limit 20
+
+# Campaign label for humans. Not used by the pipeline.
+name: agencies-new-outbound-owner
+
+# One line a human reads on Monday. Not used by the pipeline.
+description: >
+  New Heads of Growth, Heads of Outbound or founders who started at an
+  outbound or lead generation agency in the last 90 days.
+
+# Offline demo data in data/fixtures. Live mode ignores this.
+fixtures: companies_jobchangers.json
+
+company:
+  # Headcount band. Rows inside it earn size_in_band points.
+  size_min: 5
+  size_max: 50
+
+techstack:
+  # A row naming any of these earns techstack_match points.
+  # Integrations they already run, never targets in copy.
+  any_of:
+    - Smartlead
+    - Instantly
+
+signal:
+  # Rows whose signal_type differs go to rejects as signal_mismatch.
+  # job_change: the dated start of a new role, sourced from Clay.
+  type: job_change
+  # Rows whose signal_date is older than this many days, or missing,
+  # go to rejects as signal_stale.
+  lookback_days: 90
+  # signal_text must contain one of these as a whole word or phrase,
+  # or the row goes to rejects as signal_mismatch.
+  title_keywords:
+    - head of growth
+    - head of outbound
+    - founder
+    - co-founder
+
+contacts:
+  # Contact title must contain one of these, or the row goes to
+  # rejects as title_mismatch. Matching rows earn title_match points.
+  title_include:
+    - founder
+    - co-founder
+    - head of growth
+    - head of outbound
+  # A contact title containing any of these goes to rejects as
+  # title_excluded. Checked before title_include.
+  title_exclude:
+    - sdr
+    - account executive
+    - intern
+    - recruiter
+
+output:
+  # Cap on leads.csv rows. --limit on the command line wins.
+  limit: 50

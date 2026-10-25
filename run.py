@@ -11,7 +11,7 @@ def cmd_run(args):
     import pipeline
     stats = pipeline.run(args.icp, limit=args.limit, offline=args.offline)
     print("Run complete.")
-    for key in ("rows_in", "deduped", "suppressed", "invalid",
+    for key in ("rows_in", "deduped", "suppressed", "off_icp", "invalid",
                 "catch_all", "live", "seconds"):
         print("  {0:<12} {1}".format(key, stats[key]))
     print("")

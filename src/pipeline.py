@@ -4,6 +4,7 @@ import time
 from pathlib import Path
 
 import dedupe
+import icp_filter
 import suppress
 import verify
 import score as scoring
@@ -23,7 +24,7 @@ def load_icp(path):
 def source(icp, offline=True):
     """Offline reads fixtures. Live would call Apify here."""
     if offline:
-        p = FIXTURES / "companies.json"
+        p = FIXTURES / icp.get("fixtures", "companies.json")
         return json.loads(p.read_text(encoding="utf-8-sig"))
     raise SystemExit("Live sourcing needs APIFY_TOKEN. Use make demo.")
 
@@ -49,7 +50,7 @@ def shape(row, icp):
 
 
 def run(icp_path, limit=None, offline=True):
-    """Source, dedupe, suppress, verify, score, export."""
+    """Source, dedupe, suppress, filter, verify, score, export."""
     started = time.time()
     icp = load_icp(icp_path)
     raw = source(icp, offline=offline)
@@ -63,6 +64,7 @@ def run(icp_path, limit=None, offline=True):
 
     supp_path = str(ROOT / "config" / "suppression.csv")
     kept, suppressed = suppress.apply(kept, supp_path)
+    kept, off_icp = icp_filter.apply(kept, icp)
 
     live, held, bad = [], [], []
     for row in kept:
@@ -82,7 +84,7 @@ def run(icp_path, limit=None, offline=True):
     if cap:
         live = live[:int(cap)]
 
-    rejects = dupes + bad
+    rejects = dupes + off_icp + bad
     export.write_leads(live)
     export.write_rejects(rejects)
     export.write_suppressed(suppressed)
@@ -94,6 +96,7 @@ def run(icp_path, limit=None, offline=True):
         "rows_in": rows_in,
         "deduped": len(dupes),
         "suppressed": len(suppressed),
+        "off_icp": len(off_icp),
         "invalid": len(bad),
         "catch_all": len(held),
         "live": len(live),

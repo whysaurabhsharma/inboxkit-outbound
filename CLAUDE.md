@@ -41,7 +41,8 @@ on any machine.
 - data/fixtures/ recorded responses so demo runs offline
 - data/out/ generated, gitignored
 - copy/ the sequence and LinkedIn messages
-- tests/ eleven tests covering dedupe, suppression, verification
+- tests/ seventeen tests covering dedupe, suppression, verification,
+  ICP filters
 
 ## Adding a segment
 

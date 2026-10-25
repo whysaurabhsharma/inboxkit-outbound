@@ -38,6 +38,7 @@ def monday_review():
     lines.append("  sourced      " + last.get("rows_in", "0"))
     lines.append("  deduped out  " + last.get("deduped", "0"))
     lines.append("  suppressed   " + last.get("suppressed", "0"))
+    lines.append("  off ICP      " + (last.get("off_icp") or "0"))
     lines.append("  bad email    " + last.get("invalid", "0"))
     lines.append("  held         " + last.get("catch_all", "0"))
     lines.append("  live         " + last.get("live", "0"))
