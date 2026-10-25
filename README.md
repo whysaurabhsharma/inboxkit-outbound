@@ -24,8 +24,10 @@ With make available, those are `make setup`, `make demo` and
 The demo runs on recorded fixtures in `data/fixtures`, so it needs
 no network and no keys, and finishes in under a second. Signal age
 counts back from the date in `data/fixtures/as_of.json`, not today,
-so the output is identical whenever you run it. Run it
-twice: the second run adds zero rows.
+so the output is identical whenever you run it. Run it twice and the
+second run produces identical output: same counts, same rows. Each run
+rewrites `data/out` from the same inputs; it does not deduplicate
+against earlier runs.
 
 ## What you get
 

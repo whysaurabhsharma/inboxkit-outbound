@@ -86,6 +86,7 @@ def build(path=SHEET):
                            "{1} synthetic_dry_run (invented, on .example domains). "
                            "The data_source column on every tab says which.".format(
                                sources.get("live_board", 0), sources.get("synthetic_dry_run", 0))),
+        ("Spend", "$0. Nothing was sent and no paid API was called; config/scale.md has the detail."),
         ("Tier A", "Tier A is unreachable because headcount and techstack cannot be sourced free."),
     ] + [(t, "{0} ({1} rows)".format(note, len(rows))) for t, note, _, rows in tabs]
     readme.append(["Item", "Detail"])
