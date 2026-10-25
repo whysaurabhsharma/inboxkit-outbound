@@ -95,6 +95,18 @@ checked into `config/boards.csv`; nothing gets there automatically.
 `--source apify` exists but is off until `config/apify.yaml` names an
 actor.
 
+## First lines
+
+`copy/first_lines.csv` holds ten first lines produced by Claude Code
+applying `skills/first-line/SKILL.md` to rows of `data/out/leads.csv`,
+each checked by `src/first_line.py`. The `generated_by` column says so.
+One row breaks a rule on purpose, next to its fix, to show the checker
+working; the note on the file's first line says which.
+
+For volume, `python run.py first-lines` runs the same skill through
+the Anthropic API (needs `pip install anthropic` and
+`ANTHROPIC_API_KEY`) and overwrites the file.
+
 ## Rules
 
 See RULES.md. The dash rule is a lint, not a promise:

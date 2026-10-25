@@ -30,3 +30,17 @@ def test_each_skill_rule_is_enforced():
 def test_skill_version_is_read_from_the_skill_file():
     _, version = first_line.skill()
     assert version == "first-line-v1"
+
+
+def test_committed_first_lines_match_the_checker():
+    import csv
+    path = ROOT / "copy" / "first_lines.csv"
+    lines = path.read_text(encoding="utf-8").splitlines()
+    assert lines[0].startswith("# ")
+    rows = list(csv.DictReader(lines[1:]))
+    assert len({r["account_id"] for r in rows}) == 10
+    for r in rows:
+        why = first_line.check(r["first_line"], {"signal_date": r["signal_fact_used"].split(" | ")[1]})
+        assert (why is None) == (r["approved"] == "yes"), r
+        assert (why or "") == r["rejection_reason"], r
+        assert r["generated_by"].startswith("claude-code-opus-5.5")
