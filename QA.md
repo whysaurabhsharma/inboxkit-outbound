@@ -74,13 +74,14 @@ re-run after openpyxl was added, with the results below:
 | `python run.py sheet` | Wrote data/out/inboxkit-leads.xlsx |
 | Dash lint | Passed |
 
-The venv was deleted afterwards. This was the same machine, not a
-second one; see section 9.
+The venv was deleted afterwards. This was the same machine; section 9
+records the run on a second machine.
 
 ## 6. Not tested
 
-- **No second physical machine.** Every result above is from one
-  Windows laptop. Section 9 is for that test.
+- **Timing and output on the second machine.** The clean-machine run
+  in section 9 passed, but its elapsed time and its exact pytest and
+  demo output were not recorded.
 - **make is not installed here.** The Makefile was checked by reading
   its bytes (7 recipe lines, each starting with a tab, LF endings), not
   by running it.
@@ -190,13 +191,25 @@ Future commits: `git config user.email` is set to the noreply address
 both for this repo and globally on the dev machine, so other repos
 on it do not publish the personal address either.
 
-## 9. Clean machine run (to be filled in on a second computer)
+## 9. Clean machine run
 
-- Date:
-- Machine and OS:
-- Python version:
-- Commit:
-- `pip install -r requirements.txt`:
-- `python run.py run`:
-- `python -m pytest tests -q`:
-- Notes:
+The five commands from the README (`git clone`, `cd`, `pip install -r
+requirements.txt`, `python run.py run`, `python -m pytest tests -q`)
+were run on a second physical machine, by someone other than the repo
+owner, from a public clone of the GitHub repo.
+
+| | |
+| --- | --- |
+| Who | Someone other than the repo owner |
+| Where | A second physical machine, not the dev laptop |
+| Source | Public clone from GitHub |
+| Questions asked | None |
+| Steps that needed explaining | None |
+| Steps that failed | None |
+| Elapsed time | Not recorded |
+| Exact pytest and demo output | Not captured |
+| Date, machine, OS, Python version, commit | Not recorded |
+
+This is the strongest result in this file. The brief asks whether the
+pipeline runs without the author present, and it did: someone other than the author, with
+only the README got from clone to a passing run with no help.
