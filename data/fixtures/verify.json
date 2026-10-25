@@ -1,0 +1,9 @@
+﻿{
+  "dana@northwindoutbound.com": "valid",
+  "marco@pinewoodgrowth.com": "valid",
+  "floris@vectify.example": "valid",
+  "tom@cedarreach.example": "valid",
+  "sofia@lumendemand.com": "catch_all",
+  "owen@brightpipe.example": "invalid",
+  "alice@juniperoutreach.example": "valid"
+}
