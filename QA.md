@@ -5,7 +5,7 @@
 | | |
 | --- | --- |
 | What | The offline pipeline (both segments), the dash lint, the seven graded rules, determinism, a clean install, and one live run against public job boards |
-| Commit | 1f975ae (QA evidence re-run at this commit) |
+| Commit | 7375fe6 (QA evidence re-run at this commit) |
 | Date | 25 Oct 2026 |
 | Machine | Windows 11 Home Single Language 10.0.26300, Git Bash |
 | Python | 3.14.7, with PyYAML 6.0.3 and pytest 9.1.1, the versions pinned in requirements.txt |
@@ -30,7 +30,7 @@ sent; the run writes CSVs to `data/out`.
 
 Command: `python run.py run` then `python src/check_rules.py --live`.
 The script reports and never fixes. Its exit code is the number of
-failing rules. **Exit code at 1f975ae: 0, all seven pass.**
+failing rules. **Exit code at 7375fe6: 0, all seven pass.**
 
 | Rule | Result | Proof |
 | --- | --- | --- |
@@ -62,7 +62,7 @@ Offline runs count signal age back from `data/fixtures/as_of.json`
 ## 5. Clean install
 
 A fresh venv with no `yaml` module, then
-`pip install --no-cache-dir -r requirements.txt` at 1f975ae:
+`pip install --no-cache-dir -r requirements.txt` at 7375fe6:
 
 | Step | Result |
 | --- | --- |
@@ -125,30 +125,51 @@ working tree, including gitignored files, on 25 Oct 2026.
 | Phone numbers | None found |
 | Recorded live data (data/fixtures/live) | Gitignored, never committed; contains no email addresses |
 
-The scrub found two problems. Both were fixed by a history rewrite.
+The scrub found problems that a history rewrite fixed, published in
+one force push.
 
 ### History rewrite, 25 Oct 2026
 
 Why: (1) the author and committer email on 24 commits was a personal
-address, visible to anyone who can read the repo; (2) early commits
-held made-up contact emails at domains that resolve, including two
-real InboxKit customers.
+address, visible to anyone who can read the repo; (2) early fixture
+commits held invented people attached to real companies: made-up
+emails, realistic names with titles, linkedin.com/in paths that could
+resolve to real profiles, and made-up job URLs on real job board hosts.
 
-What changed, in one pass with `git filter-branch` over all 26 commits:
+Full scope, two `git filter-branch` passes over every commit, then one
+`git push --force-with-lease`:
 
-- Author and committer email on every commit set to the GitHub
+- **Author and committer email** on every commit set to the GitHub
   noreply address. Names, dates and messages unchanged.
-- Nine made-up addresses at domains that resolve in DNS replaced by
-  `.example` equivalents wherever they appeared in history:
-  alice@juniperoutreach, c@someagency, ellie@outreachbloom,
-  floris@vectify, info@acme, owen@brightpipe, sales@acme,
-  someone@agency, tom@cedarreach. Made-up addresses at domains with no
-  DNS record were left as they were.
-- The current tree was not touched: its tree hash is identical before
-  and after (c41ca01), because the working tree already held none of
-  these addresses.
+- **9 made-up emails at domains that resolve in DNS** replaced by
+  `.example` equivalents: alice@juniperoutreach, c@someagency,
+  ellie@outreachbloom, floris@vectify, info@acme, owen@brightpipe,
+  sales@acme, someone@agency, tom@cedarreach. Made-up addresses at
+  domains with no DNS record were left as they were.
+- **22 invented people**: each surname replaced by an invented one in
+  the style of make_synthetic.py (for example Floris Jansen at
+  vectify.io became Floris Vexworth). First names kept. Replaced only
+  inside `"last_name":"..."`, so other text was not touched. Five of
+  the 22 sat at domains that resolve (vectify.io, outreachbloom.com,
+  juniperoutreach.com, cedarreach.com, brightpipe.com); all 22 were
+  replaced because each LinkedIn path was built from the name.
+- **22 linkedin.com/in paths** replaced by linkedin.example/in paths
+  matching the new names. No linkedin.com/in URL remains in history.
+- **8 made-up job URLs** on real hosts (boards.greenhouse.io,
+  jobs.ashbyhq.com, jobs.lever.co, including one under the slug
+  vectify) replaced by jobs.example URLs.
 
-Every commit hash changed. Old 7f18f37 is new 0da7daa; references in
+Left alone on purpose, as public facts about companies: the 6 approved
+board tokens in config/boards.csv, Belkins and memoryBlue with their
+real public job URLs, the customer and competitor lists in
+config/suppression.csv and config/claims.md. The history of those
+files is identical before and after the rewrite.
+
+The current tree was not touched: its tree hash is identical before
+and after each pass, because the working tree already held none of the
+replaced strings.
+
+Every commit hash changed. Old 7f18f37 is new 3b0a44a; references in
 this file were updated. Anyone with an old clone must re-clone.
 
 Backup: a git bundle of all refs before the rewrite,
@@ -162,8 +183,9 @@ tree. That test checks suppression against the real customer and
 competitor list in config/suppression.csv, so it has to use real
 domains. The local parts are single letters and name no one.
 
-Future commits: this repo's `git config user.email` is set to the
-noreply address.
+Future commits: `git config user.email` is set to the noreply address
+both for this repo and globally on the dev machine, so other repos
+on it do not publish the personal address either.
 
 ## 9. Clean machine run (to be filled in on a second computer)
 
