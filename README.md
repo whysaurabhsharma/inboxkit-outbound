@@ -22,7 +22,9 @@ With make available, those are `make setup`, `make demo` and
 `make test`.
 
 The demo runs on recorded fixtures in `data/fixtures`, so it needs
-no network and no keys, and finishes in under a second. Run it
+no network and no keys, and finishes in under a second. Signal age
+counts back from the date in `data/fixtures/as_of.json`, not today,
+so the output is identical whenever you run it. Run it
 twice: the second run adds zero rows.
 
 ## What you get

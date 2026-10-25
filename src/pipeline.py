@@ -1,6 +1,7 @@
 ﻿"""The pipeline. One YAML in, four CSVs out."""
 import json
 import time
+from datetime import date
 from pathlib import Path
 
 import dedupe
@@ -29,15 +30,24 @@ def source(icp, offline=True):
     raise SystemExit("Live sourcing needs APIFY_TOKEN. Use make demo.")
 
 
+def as_of(offline=True):
+    """The date signal age counts back from. Frozen offline."""
+    if offline:
+        p = FIXTURES / "as_of.json"
+        data = json.loads(p.read_text(encoding="utf-8-sig"))
+        return date.fromisoformat(data["as_of"])
+    return date.today()
+
+
 def build_signal_cell(row):
     bits = [row.get("signal_type") or "", row.get("signal_date") or "",
             row.get("signal_url") or ""]
     return " | ".join(b for b in bits if b)
 
 
-def shape(row, icp):
+def shape(row, icp, today=None):
     """Map a raw record onto the brief column names."""
-    pts, reasons = scoring.score_row(row, icp)
+    pts, reasons = scoring.score_row(row, icp, today)
     out = dict(row)
     out["name"] = " ".join(
         [row.get("first_name") or "", row.get("last_name") or ""]
@@ -55,8 +65,9 @@ def run(icp_path, limit=None, offline=True):
     icp = load_icp(icp_path)
     raw = source(icp, offline=offline)
     rows_in = len(raw)
+    today = as_of(offline)
 
-    shaped = [shape(r, icp) for r in raw]
+    shaped = [shape(r, icp, today) for r in raw]
 
     kept, dupes = dedupe.dedupe(shaped, dedupe.company_key)
     kept, person_dupes = dedupe.dedupe(kept, dedupe.person_key)
@@ -64,7 +75,7 @@ def run(icp_path, limit=None, offline=True):
 
     supp_path = str(ROOT / "config" / "suppression.csv")
     kept, suppressed = suppress.apply(kept, supp_path)
-    kept, off_icp = icp_filter.apply(kept, icp)
+    kept, off_icp = icp_filter.apply(kept, icp, today)
 
     live, held, bad = [], [], []
     for row in kept:

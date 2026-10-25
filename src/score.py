@@ -10,7 +10,7 @@ WEIGHTS = {
 }
 
 
-def _days_old(iso_date):
+def _days_old(iso_date, today=None):
     if not iso_date:
         return None
     try:
@@ -19,14 +19,16 @@ def _days_old(iso_date):
         return None
     if d.tzinfo is None:
         d = d.replace(tzinfo=timezone.utc)
-    return (datetime.now(timezone.utc) - d).days
+    if today is None:
+        return (datetime.now(timezone.utc) - d).days
+    return (today - d.date()).days
 
 
-def score_row(row, icp):
-    """Return score and the reasons behind it."""
+def score_row(row, icp, today=None):
+    """Return score and the reasons behind it. today defaults to now."""
     points = 0
     reasons = []
-    age = _days_old(row.get("signal_date"))
+    age = _days_old(row.get("signal_date"), today)
     if row.get("signal_url"):
         points += WEIGHTS["signal_present"]
         reasons.append("signal_present")

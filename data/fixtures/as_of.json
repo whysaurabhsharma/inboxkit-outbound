@@ -1,0 +1,4 @@
+{
+  "as_of": "2026-10-25",
+  "note": "Offline runs count signal age back from this date, not today, so the demo output never drifts."
+}

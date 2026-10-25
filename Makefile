@@ -1,5 +1,8 @@
 .PHONY: setup demo run lint test report clean
 
+ICP ?= config/icp.yaml
+LIMIT ?= 100
+
 setup:
 	pip install -r requirements.txt
 
