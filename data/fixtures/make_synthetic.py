@@ -87,13 +87,16 @@ def build():
         slug = "{0}{1}".format(first, last).lower()
         fresh = kind != "stale"
         age = rng.randint(1, 85) if fresh else rng.randint(100, 200)
-        size = rng.randint(5, 50) if rng.random() > 0.1 else rng.choice([3, 64, 90, 120])
+        # Drawn and discarded so the rest of the seeded sequence stays put:
+        # no free source gives headcount or techstack, so both read Not found.
+        rng.randint(5, 50) if rng.random() > 0.1 else rng.choice([3, 64, 90, 120])
+        rng.choice(STACKS)
         return {
             "account_id": "S{0:03d}".format(n),
             "company": "{0} {1}".format(stem, agency),
             "domain": domain,
-            "employee_count": size,
-            "techstack": rng.choice(STACKS),
+            "employee_count": "Not found",
+            "techstack": "Not found",
             "signal_type": "job_post",
             "signal_date": (AS_OF - timedelta(days=age)).isoformat(),
             "signal_url": "https://jobs.example/{0}/{1}".format(domain.split(".")[0], 1000 + n),
@@ -183,7 +186,7 @@ def build_jobchangers(companies, people):
                         "title_mismatch": "Head of Outbound"}.get(kind, title)
         row = {
             "account_id": aid, "company": "{0} {1}".format(stem, agency), "domain": domain,
-            "employee_count": size, "techstack": stack, "signal_type": "job_change",
+            "employee_count": "Not found", "techstack": "Not found", "signal_type": "job_change",
             "signal_date": start, "signal_url": profile,
             "signal_text": "Started as " + signal_title,
             "first_name": first, "last_name": last, "title": title,

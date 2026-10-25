@@ -75,6 +75,41 @@ By contrast, the Prospeo free tier would cover 28 to 37 contacts a
 month at 2.67 credits per contact (estimated), already more than the
 2 accounts the boards produced (measured).
 
+## Second bottleneck: headcount and techstack
+
+No free source used in this run gives headcount or techstack for these
+accounts. Evidence, all measured:
+
+- 0 of 6 approved boards publish headcount.
+- 0 of 2 live job posts name Smartlead or Instantly.
+- leads.csv: `employee_count` and `techstack` read "Not found" in 39 of
+  39 rows. The synthetic rows carry no invented value for either.
+
+Effect, measured: the techstack points (25) and size points (15) never
+apply, so the maximum score is 60 and tier A (70 or more) cannot be
+reached. All 39 leads are tier B: 14 at 60, 25 at 45. The 5 to 50
+size band cannot be applied as a filter, only stated.
+
+What it would take to fill them:
+
+- Headcount: a company data source that returns employee count per
+  domain. Prospeo company data and Clay company enrichment are the
+  candidates; neither was tested, and whether Prospeo returns headcount
+  is not verified. Assuming 1 credit per company lookup (A4, not
+  measured), 3,334 accounts need 3,334 credits (estimated). With the
+  5,334 contact credits above that is 8,668 Prospeo credits, which fits
+  Pro at $249 for 15,000 (estimated). This costs money: 3,334 lookups
+  exceed every free tier listed above (estimated).
+- Techstack: Smartlead and Instantly send from the sequencer's servers,
+  so a website technology scan need not see them (assumption, not
+  verified). Three routes: job post text naming the tool (free, found
+  in 0 of 2 posts, measured); the agency's own pages or a sequencer
+  partner listing naming it (free, read by hand per account, not
+  priced in time); a paid technographic provider (costs money, not
+  priced, and whether any detects these two tools is not verified).
+
+Until both are filled, a tier reflects signal and title only.
+
 ## First change with a budget
 
 Spend it on account sourcing before any email credits: run one paid
@@ -82,7 +117,8 @@ company search that filters by industry and by headcount 5 to 50 on a
 sample of 100 accounts, and measure how many pass the ICP checks in
 this repo. That rate, with a measured Prospeo hit rate on the same
 sample, replaces A2 and the missing sourcing line above with measured
-numbers.
+numbers. A search that returns headcount also fills the size field,
+which addresses part of the second bottleneck.
 
 ## Price sources, read 25 Oct 2026
 

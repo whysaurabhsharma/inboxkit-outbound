@@ -1,4 +1,5 @@
 ﻿"""The pipeline. One YAML in, five CSVs out."""
+import csv
 import json
 import time
 from datetime import date
@@ -58,6 +59,20 @@ def as_of(offline=True, icp=None):
         data = json.loads(p.read_text(encoding="utf-8-sig"))
         return date.fromisoformat(data["as_of"])
     return date.today()
+
+
+def load_first_lines(path=ROOT / "copy" / "first_lines.csv"):
+    """account_id -> (first_line, prompt_version) for approved lines only.
+
+    The file opens with one # note line saying how the lines were made.
+    """
+    p = Path(path)
+    if not p.exists():
+        return {}
+    lines = [l for l in p.read_text(encoding="utf-8-sig").splitlines()
+             if not l.startswith("#")]
+    return {r["account_id"]: (r["first_line"], r["prompt_version"])
+            for r in csv.DictReader(lines) if r.get("approved") == "yes"}
 
 
 def build_signal_cell(row):
@@ -153,6 +168,11 @@ def run(icp_path, limit=None, offline=True, source_name="boards",
     cap = limit or icp.get("output", {}).get("limit")
     if cap:
         live = live[:int(cap)]
+
+    first_lines = load_first_lines()
+    for row in live:
+        row["first_line"], row["prompt_version"] = first_lines.get(
+            row.get("account_id"), ("Not found", "Not found"))
 
     rejects = dupes + off_icp + bad
     export.write_leads(live)

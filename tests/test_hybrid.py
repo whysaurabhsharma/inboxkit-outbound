@@ -59,3 +59,22 @@ def test_live_accounts_go_to_needs_contact_not_rejects(tmp_path, monkeypatch):
     assert all(r["data_source"] == "live_board" for r in needs)
     assert stats["needs_contact"] == 2
     assert not [r for r in rejects if r.get("data_source") == "live_board"]
+
+
+def test_leads_have_no_empty_cells_and_no_unsourced_size_or_stack(tmp_path, monkeypatch):
+    import csv
+    import pipeline
+    import run_log
+    monkeypatch.setattr(export, "OUT", tmp_path)
+    monkeypatch.setattr(run_log, "OUT", tmp_path)
+    monkeypatch.setattr(run_log, "LOG", tmp_path / "run_log.csv")
+    pipeline.run(str(ROOT / "config" / "icp.yaml"))
+    with (tmp_path / "leads.csv").open(encoding="utf-8-sig") as fh:
+        leads = list(csv.DictReader(fh))
+    approved = pipeline.load_first_lines()
+    for r in leads:
+        assert all(v.strip() for v in r.values()), r["account_id"]
+        assert r["techstack"] == "Not found" and r["employee_count"] == "Not found"
+        expected = approved.get(r["account_id"], ("Not found", "Not found"))
+        assert (r["first_line"], r["prompt_version"]) == expected, r["account_id"]
+    assert sum(r["first_line"] != "Not found" for r in leads) == len(approved)
