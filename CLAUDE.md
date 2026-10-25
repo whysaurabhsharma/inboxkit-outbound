@@ -32,6 +32,7 @@ on any machine.
 | python run.py probe --names "A,b.com" | Find boards, writes candidates only |
 | python run.py suppress --add X --reason opt_out | Honour an opt-out |
 | python run.py report | Monday review |
+| python run.py sheet | One .xlsx of every output, for Google Sheets |
 | python -m pytest tests -q | Tests |
 | python src/lint_copy.py | Dash lint |
 
@@ -46,7 +47,7 @@ on any machine.
   rebuilt by make_synthetic.py
 - data/out/ generated, gitignored
 - copy/ the sequence and LinkedIn messages
-- tests/ forty-six tests covering dedupe, suppression, verification,
+- tests/ forty-seven tests covering dedupe, suppression, verification,
   ICP filters, the frozen demo date, the live sources (offline) and
   the data_source labelling
 

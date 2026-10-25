@@ -65,6 +65,16 @@ python run.py suppress --add someone@agency.example --reason opt_out
 python run.py report
 ```
 
+## One sheet for Google Sheets
+
+```
+python run.py sheet
+```
+
+Writes `data/out/inboxkit-leads.xlsx`: a Read me tab, then Leads, Needs
+contact, Held, Rejects, Suppressed and Run log, each with a bold frozen
+header. Upload it to Google Sheets with File > Import.
+
 ## Live mode
 
 ```

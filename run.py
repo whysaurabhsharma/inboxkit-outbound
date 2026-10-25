@@ -67,6 +67,17 @@ def cmd_first_lines(args):
     return 0
 
 
+def cmd_sheet(args):
+    import export_sheet
+    path, counts, sources = export_sheet.build()
+    print("Wrote {0}".format(path))
+    for tab, n in counts.items():
+        print("  {0:<14} {1} rows".format(tab, n))
+    print("  data_source: {0} live_board, {1} synthetic_dry_run".format(
+        sources.get("live_board", 0), sources.get("synthetic_dry_run", 0)))
+    return 0
+
+
 def cmd_report(args):
     import report
     print(report.monday_review())
@@ -102,6 +113,9 @@ def main():
     fl = sub.add_parser("first-lines", help="Run the first-line skill on leads.csv")
     fl.add_argument("--limit", type=int, default=10)
     fl.set_defaults(func=cmd_first_lines)
+
+    sh = sub.add_parser("sheet", help="Write data/out/inboxkit-leads.xlsx from the CSVs")
+    sh.set_defaults(func=cmd_sheet)
 
     rep = sub.add_parser("report", help="Print the Monday review")
     rep.set_defaults(func=cmd_report)
